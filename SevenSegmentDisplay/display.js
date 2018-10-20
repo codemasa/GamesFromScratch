@@ -1,17 +1,26 @@
 var canvas;
 var context;
 
+var start = document.getElementById('start').addEventListener("click", function(){
+  start = true;
+});
+var stop = document.getElementById('stop').addEventListener("click", function(){
+  start = false;
+});
+
+
+var start = true;
+var i = 0;
 
 window.onload = function() {
   canvas = document.getElementById("display");
   context = canvas.getContext("2d");
   colorBackground(0,0,canvas.width, canvas.height, "black");
   setInterval(function(){
-    i=0
-    colorDigit(0,5)
-    i = i+1 % 9
+    colorDigit(0,i);
+    i = increment(i);
 
-  }, 1000/60)
+  }, 10000/30)
 
 }
 function colorBackground(leftX,topY, width,height, color) {
@@ -28,6 +37,16 @@ function colorCircle(centerX, centerY, radius, color) {
 	context.beginPath();
 	context.arc(centerX, centerY, radius, 0,Math.PI*2,true);
 	context.fill();
+}
+
+function colorTriangle(height, base, x, y, color) {
+  context.beginPath();
+  context.moveTo(x,y);
+  context.lineTo(x + base / 2, y + height);
+  context.lineTo(x - base / 2, y + height);
+  context.closePath();
+  context.fillStyle = color;
+  context.fill();
 }
 
 function colorSegment(type, digit, on){
@@ -53,10 +72,10 @@ function colorSegment(type, digit, on){
       colorRect(25+(digit*width*2), (width+25)*2 , width, height, color);
       break;
     case "E":
-      colorRect((digit*width*2), 25 , height, width, color);
+      colorRect((digit*width*2), width+50 , height, width, color);
       break;
     case "F":
-      colorRect((digit*width*2), width+50 , height, width, color);
+      colorRect((digit*width*2), 25 , height, width, color);
       break
     case "G":
       colorRect(25+(digit*width*2), width+25, width, height, color);
@@ -85,4 +104,12 @@ function isOn(val, shift){
   }
   return false;
 
+}
+function increment(i){
+  if(start){
+    return i = (i+1) % 10;
+  }
+  else{
+    return i;
+  }
 }
