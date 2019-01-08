@@ -1,26 +1,31 @@
 var canvas;
 var context;
 
-var start = document.getElementById('start').addEventListener("click", function(){
-  start = true;
+var start = document.getElementById('inc').addEventListener("click", function(){
+  i++;
 });
-var stop = document.getElementById('stop').addEventListener("click", function(){
-  start = false;
+var stop = document.getElementById('dec').addEventListener("click", function(){
+  i--;
 });
 
 
 var start = true;
-var i = 0;
+var i = -1;
 
 window.onload = function() {
   canvas = document.getElementById("display");
   context = canvas.getContext("2d");
   colorBackground(0,0,canvas.width, canvas.height, "black");
   setInterval(function(){
-    colorDigit(0,i);
-    i = increment(i);
-
-  }, 10000/30)
+    console.log(i)
+    colorDigit(0, (i+1) % 10);
+    colorDigit(1, Math.floor(((i+1)/10))%10);
+    colorDigit(2, Math.floor(((i+1)/100))%10);
+    colorDigit(3, Math.floor(((i+1)/1000))%10);
+    colorDigit(4, Math.floor(((i+1)/10000))%10);
+    colorDigit(5, Math.floor(((i+1)/100000))%10);
+    colorDigit(6, Math.floor(((i+1)/1000000))%10);
+  }, 1)
 
 }
 function colorBackground(leftX,topY, width,height, color) {
@@ -54,7 +59,7 @@ function colorSegment(type, digit, on){
   const canvasHeight = 225;
   const height = 25;
   const width = 75;
-  var color = "#000000";
+  var color = "#440000";
   if(on == true){
     color = "#FF0000";
   }
@@ -86,30 +91,23 @@ function colorSegment(type, digit, on){
 
 }
 
-function colorDigit(digit, value){
+function colorDigit(digit, value, on=true){
   var numbers = [0x7E	, 0x30, 0x6D, 0x79, 0x33, 0x5B, 0x5F, 0x70, 0x7F, 0x7B];
   var segments = ["A", "B", "C", "D", "E", "F", "G"]
-  colorSegment(segments[0], digit, isOn(numbers[value], 6));
-  colorSegment(segments[1], digit, isOn(numbers[value], 5));
-  colorSegment(segments[2], digit, isOn(numbers[value], 4));
-  colorSegment(segments[3], digit, isOn(numbers[value], 3));
-  colorSegment(segments[4], digit, isOn(numbers[value], 2));
-  colorSegment(segments[5], digit, isOn(numbers[value], 1));
-  colorSegment(segments[6], digit, isOn(numbers[value], 0));
+  colorSegment(segments[0], 6-digit, isOn(numbers[value], 6, true));
+  colorSegment(segments[1], 6-digit, isOn(numbers[value], 5, true));
+  colorSegment(segments[2], 6-digit, isOn(numbers[value], 4, true));
+  colorSegment(segments[3], 6-digit, isOn(numbers[value], 3, true));
+  colorSegment(segments[4], 6-digit, isOn(numbers[value], 2, true));
+  colorSegment(segments[5], 6-digit, isOn(numbers[value], 1, true));
+  colorSegment(segments[6], 6-digit, isOn(numbers[value], 0, true));
 }
 
-function isOn(val, shift){
-  if(((val >> shift) & 1)){
+
+function isOn(val, shift,on){
+  if(((val >> shift) & 1) && on){
     return true;
   }
   return false;
 
-}
-function increment(i){
-  if(start){
-    return i = (i+1) % 10;
-  }
-  else{
-    return i;
-  }
 }
