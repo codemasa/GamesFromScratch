@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
-
 var i = -1;
 class App extends React.Component {
     constructor(props){
       super(props)
-      this.increment = this.increment.bind(this);
-      this.decrement = this.decrement.bind(this);
+      this.state = {index: -1}
+
     }
     componentDidMount() {
-        this.updateCanvas();
+        this.updateCanvas(this.state.index)
+        if(this.props.currentIndex){
+          this.updateCanvas(this.props.currentIndex);
+          this.setState((state)=>{
+            return{index: this.props.currentIndex};
+          });
+        }
+        else{
+          this.updateCanvas(-1);
+        }
     }
     increment() {
-      i++;
+      this.setState((state)=>{
+        return{index: this.state.index + 1};
+      },()=>{
+        this.updateCanvas(this.state.index);
+    });
+
+
     }
     decrement() {
-      i--;
+      this.setState((state)=>{
+        return{index: this.state.index - 1};
+      },() => {
+        this.updateCanvas(this.state.index);
+
+    });
     }
-    updateCanvas() {
+    updateCanvas(i) {
         const canvas = this.refs.canvas;
         const context = this.refs.canvas.getContext('2d');
         function colorBackground(leftX,topY, width,height, color) {
@@ -103,23 +122,21 @@ class App extends React.Component {
 
         }
         colorBackground(0,0,canvas.width, canvas.height, "black");
-        setInterval(function(){
-          colorDigit(0, (i+1) % 10);
-          colorDigit(1, Math.floor(((i+1)/10))%10);
-          colorDigit(2, Math.floor(((i+1)/100))%10);
-          colorDigit(3, Math.floor(((i+1)/1000))%10);
-          colorDigit(4, Math.floor(((i+1)/10000))%10);
-          colorDigit(5, Math.floor(((i+1)/100000))%10);
-          colorDigit(6, Math.floor(((i+1)/1000000))%10);
-        }, 1)
+        colorDigit(0, (i+1) % 10);
+        colorDigit(1, Math.floor(((i+1)/10))%10);
+        colorDigit(2, Math.floor(((i+1)/100))%10);
+        colorDigit(3, Math.floor(((i+1)/1000))%10);
+        colorDigit(4, Math.floor(((i+1)/10000))%10);
+        colorDigit(5, Math.floor(((i+1)/100000))%10);
+        colorDigit(6, Math.floor(((i+1)/1000000))%10);
 
     }
     render() {
         return (
           <div>
             <canvas ref="canvas" width={1025} height={225}/>
-            <button onClick={this.increment}>Increment</button>
-            <button onClick={this.decrement}>Decrement</button>
+            <button onClick={this.increment.bind(this)}>Increment</button>
+            <button onClick={this.decrement.bind(this)}>Decrement</button>
           </div>
         );
     }
