@@ -1,8 +1,8 @@
 {
-  "name": "sevensegmentdisplay",
+  "name": "sevensegmentcounter",
   "version": "1.0.0",
-  "description": "",
-  "main": "display.js",
+  "description": "A counter that is stylized as a seven segment display",
+  "main": "app.js",
   "dependencies": {
     "babel-loader": "^8.0.5",
     "express": "^4.16.4",
@@ -21,6 +21,6 @@
     "dev": "webpack -d --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Cody Abe",
   "license": "ISC"
 }

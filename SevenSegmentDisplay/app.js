@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 var i = -1;
-class App extends React.Component {
+class SevenSegmentCounter extends React.Component {
     constructor(props){
       super(props)
       this.state = {index: -1}
@@ -144,4 +144,4 @@ class App extends React.Component {
 
 
 
-export default App;
+export default SevenSegmentCounter;
