@@ -2,7 +2,7 @@ let canvas;
 let LENGTH = 7;
 let gridScalar = 70;
 let DIAM = 50
-  let baseX = 50;
+let baseX = 50;
 let baseY = 50;
 let circlesX = [];
 let circlesY = [];
@@ -14,6 +14,8 @@ let xDots = [];
 let colors = ['#EEAAAA', '#EEC5AA', '#EEE0AA', '#C5EEAA', '#AAEEC5', '#AAEEE0', '#AAE0EE'];
 function setup() {
   canvas = createCanvas(500, 500);
+  background(100);
+
 
   for (let i = 0; i < 7; i++) {
     circlesX.push(new Circle(baseX+gridScalar*(i+1), baseY, DIAM, colors[i]));
@@ -41,7 +43,7 @@ function setup() {
   for (let i = 0; i < 7; i++) {
     let row = [];
     for (let j = 0; j < 7; j++) {
-      row.push(new xDot(dotsX[i].getX(), dotsY[j].getY(), averageColor(colors[i],colors[j])));
+      row.push(new xDot(dotsX[i].getX(), dotsY[j].getY(), averageColor(colors[i],colors[j]),[]));
     }
     xDots.push(row);
   }
@@ -49,7 +51,7 @@ function setup() {
 
 
 function draw() {
-  background(100);
+   background(100);
 
   for (let i = 0; i < LENGTH; i++) {
     circlesX[i].display();
@@ -126,18 +128,26 @@ class Dot {
 }
 
 class xDot {
-  constructor(x, y, c) {
+  constructor(x, y, c, h) {
     this.x = x;
     this.y = y;
     this.c = c;
+    this.h = h;
   }
 
   display() {
-    strokeWeight(4);
+    strokeWeight(1);
     stroke(color(this.c))
     point(this.x, this.y);
   }
   move(x, y) {
+    if(this.h.length == 700){
+      this.h = [];
+    }
+    this.h.push({x: this.x, y: this.y});
+    for(let i = 0 ; i < this.h.length; i++){
+      point(this.h[i].x, this.h[i].y);
+    }
     this.x = x;
     this.y = y;
   }
