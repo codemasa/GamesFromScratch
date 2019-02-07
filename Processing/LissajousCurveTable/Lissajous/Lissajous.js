@@ -11,7 +11,7 @@ let dotsY = [];
 let dottedX = [];
 let dottedY = [];
 let xDots = [];
-let colors = ['#EEAAAA', '#EEC5AA', '#EEE0AA', '#C5EEAA', '#AAEEC5', '#AAEEE0', '#AAE0EE'];
+let colors = ['#EEAAAA', '#EEC5AA', '#EEE0AA', '#C5EEAA', '#AAEEC5', '#AAEEE0', '#AAE0EE']; //#EEAAAA to #AAAAEE
 function setup() {
   canvas = createCanvas(500, 500);
   background(100);
